@@ -9,21 +9,28 @@ def normalize(audio_arr):
 def resample16kHz(audio_arr, orig_sampling_rate):
     return librosa.resample(audio_arr, orig_sr=orig_sampling_rate, target_sr=16000)
 
-class PreProcessingPipeline:
-    def __init__(self, audiofile, sample_rate):
-        self.audiofile = audiofile
-        self.sample_rate = sample_rate
-    
-    def process(self, filepath):
-        audio = librosa.load(filepath,sr=self.sample_rate)
-        audio_trim, _ = librosa.effects.trim(audio)
-        audio_trim_nr = nr.reduce_noise(audio_trim, prop_decrease=0.5)
-        audio_processed = None
+class AudioDataset:
+
+
     def __init__(self, audio_filepath, prop_decrease):
+        self.data = []
+        self.metadata = []
         self.audio_filepath = audio_filepath
-        self.prop_decrease = prop_decrease
-    
-    def process(self):
+        # self.prop_decrease = prop_decrease
+        
+        #TODO : Read all vaw files in given audio_filepath
+        #Add it to data and metadata 
+        #self.process(i)
+
+        #TODO GET function to get a data at index i and metadata i 
+
+
+
+
+
+
+
+    def process(self,audio_sample):
         voice, sampling_rate = librosa.load(self.audio_filepath, sr=None)
         voice_trimmed, _ = librosa.effects.trim(voice)
         
@@ -43,11 +50,13 @@ class PreProcessingPipeline:
 
         return voice_resampled_16kHz, metadata
 
+    def __str__(self):
+        pass
 
 if __name__ == "__main__":
-    pass
-
-        
+    x = AudioDataset(r"data\raw\148-phrase.wav",0.5)
+    voice_resampled, meta= x.process()
+    print(meta)
 
 
         
