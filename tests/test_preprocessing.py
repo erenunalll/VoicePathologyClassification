@@ -1,8 +1,6 @@
 import numpy as np
-import os
 import pytest
-import sys
-# sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.utils import utils
 from src.preprocessing import AudioDataset
 
 def test_trim_on_silence_test():
