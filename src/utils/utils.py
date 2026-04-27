@@ -3,20 +3,24 @@ import noisereduce as nr
 import numpy as np
 import matplotlib.pyplot as plt
 
-def silence_trim(audio_arr: np.ndarray, top_db: int):
-    if (audio_arr[audio_arr < top_db].sum() == len(audio_arr)):
-        return audio_arr
 
+def silence_trim(audio_arr: np.ndarray, top_db: int) -> np.ndarray:
+    audio_dB = librosa.amplitude_to_db(np.abs(audio_arr))
+    if (np.all(audio_dB < -top_db)):  # check if silence
+        return audio_arr
     return librosa.effects.trim(audio_arr,top_db=top_db)[0]
 
-def reduce_noise(audio_arr: np.ndarray, sample_rate: int, prop_decrease: float):
+def reduce_noise(audio_arr: np.ndarray, sample_rate: int, prop_decrease: float) -> np.ndarray:
     return nr.reduce_noise(audio_arr,sr=sample_rate,prop_decrease=prop_decrease)
 
-def peak_normalization(audio_arr: np.ndarray):
-    return (audio_arr / np.max(audio_arr))
+def peak_normalization(audio_arr: np.ndarray) -> np.ndarray:
+    peak = np.max(audio_arr)
+    if peak == 0:
+        return audio_arr
+    return (audio_arr / peak)
 
-def resample(audio_arr: np.ndarray, sample_rate: int, target_sr: int):
-    return librosa.resample(audio_arr, orig_sr=sample_rate, target_sr=target_sr)
+def resample_to_16kHz(audio_arr: np.ndarray, sample_rate: int) -> np.ndarray:
+    return librosa.resample(audio_arr, orig_sr=sample_rate, target_sr=16000)
 
 def waveform(audio_arr: np.ndarray, sample_rate: int):
     t = np.linspace(0, len(audio_arr)/sample_rate,num=len(audio_arr))
