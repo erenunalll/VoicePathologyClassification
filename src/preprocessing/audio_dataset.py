@@ -7,37 +7,36 @@ import pathlib
 
 directoryPath = str(pathlib.Path.home()) + os.sep + "VoicePathologyClassification" + os.sep + "VoicePathologyClassification" + os.sep + "data"
 
-
 class Preprocess:
-    def __init__(self, audio_filename: str, prop_decrease: float):
+    def __init__(self, audio_filename: str, prop_decrease: float, top_db: int):
         self.audio_filename = audio_filename
         self.prop_decrease = prop_decrease
-        pass
+        self.top_db = top_db
 
 
     def process(self):
         audio_arr, sample_rate = librosa.load(directoryPath + os.sep + "raw" + os.sep + self.audio_filename,sr=None)
-        
-        
-        
-        pass
 
-class DataLoader():
-    def __init__(self):
-        pass
+        trimmed_audio = silence_trim(audio_arr, top_db=self.top_db)
+        noise_reduced_audio = reduce_noise(trimmed_audio,sample_rate=sample_rate, prop_decrease=self.prop_decrease)
+        normalized_audio = peak_normalization(noise_reduced_audio)     
+        resampled_audio = resample_to_16kHz(normalized_audio, sample_rate=sample_rate)
 
-    for root, dirs, files in os.walk(os.path.join(directoryPath, "raw")):
-        for file in files:
-            pass
-                    
+        metadata = {"Filename: " : self.audio_filename,
+                    "Duration: " : round(len(resampled_audio)/16000, 4),
+                    "Sample Rate: " : 16000}
         
-
+        return resampled_audio, metadata
 
 
 if __name__ == "__main__":
-    x = Preprocess(r"data\raw\148-phrase.wav",0.5)
-    voice_resampled, meta= x.process()
-    print(meta)
+    x = Preprocess(r"halitVoice.wav",0.5,40)
+    voice_resampled, md1= x.process()
+    print(md1)
+
+    y = Preprocess(r"5 Seconds of silence.wav",0.5,40)
+    voice_processed, md2 = y.process()
+    print(md2)
 
 
         

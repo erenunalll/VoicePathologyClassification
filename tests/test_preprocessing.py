@@ -1,10 +1,11 @@
 import numpy as np
 import pytest
+import pathlib
 from src.utils import utils
 from src.preprocessing import AudioDataset
 
 def test_trim_on_silence_test():
-    audio = AudioDataset(r"C:\Users\ernun\VoicePathologyClassification\VoicePathologyClassification\data\raw\5 seconds of silence - Ira Bnut (128k).wav",0)
+    audio = AudioDataset(str(pathlib.Path.home)+r"\VoicePathologyClassification\VoicePathologyClassification\data\raw\5 seconds of silence - Ira Bnut (128k).wav",0)
     
     try:
         processed, _ = audio.process()
@@ -12,7 +13,7 @@ def test_trim_on_silence_test():
         pytest.fail("Process() crashed on silent audio: ", Exception)
 
 def test_output_sample_rate_16kHz():
-    audio = AudioDataset(r"C:\Users\ernun\VoicePathologyClassification\VoicePathologyClassification\data\raw\voice001.wav",0)
+    audio = AudioDataset(str(pathlib.Path.home)+r"\VoicePathologyClassification\VoicePathologyClassification\data\raw\voice001.wav",0)
 
     processed, metadata = audio.process()
 
@@ -21,7 +22,7 @@ def test_output_sample_rate_16kHz():
     )
 
 def test_output_amplitude():
-    audio = audio = AudioDataset(r"C:\Users\ernun\VoicePathologyClassification\VoicePathologyClassification\data\raw\voice001.wav",0)
+    audio = audio = AudioDataset(str(pathlib.Path.home)+r"\VoicePathologyClassification\VoicePathologyClassification\data\raw\voice001.wav",0)
     
     processed, _ = audio.process()
     assert (np.max(processed) <= 1) and (np.min(processed) >= -1), (
