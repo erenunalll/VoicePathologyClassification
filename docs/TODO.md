@@ -7,3 +7,11 @@
     #Add it to data and metadata 
     #self.process(i)
     #TODO GET function to get a data at index i and metadata i 
+
+
+### 04.05.2026
+    - https://www.kaggle.com/code/karimhassan808/animal-source-separation/
+    - https://www.kaggle.com/code/lohzhishen/bird-voice-detection-using-mfcc-rmse-and-zcr/notebook   
+    - Yukarıdaki datasetler veriyi nasıl yüklüyor incelememiz lazım. Dataloader ve Dataset sınıfları nasıl çalışıyor. Kendi sınıfımızda nasıl yapmak isteriz ? 
+    - Yapabildiğin kadar Week 3 Todoları  *Hepsini yapmak zorunda değilsin*  eksikleri beraber kodlarız.
+    - MFCC nedir , ne için kullanılır sadece bakalım (okduğun kaynak varsa readme.md içerisine eklemen yararlı olur)
